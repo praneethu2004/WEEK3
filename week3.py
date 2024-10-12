@@ -1,4 +1,3 @@
-import json
 from collections import defaultdict
 
 def get_user_input():
@@ -16,34 +15,9 @@ def get_user_input():
     description = input("Enter a brief description: ")
     category = input("Enter the category (e.g., food, transportation, entertainment): ")
     
-    return amount, description, category
-
-def save_expenses_to_file(expenses, filename="expenses.json"):
-    """
-    Saves the list of expenses to a file.
+    date = input("Enter the date (YYYY-MM-DD): ")
     
-    Parameters:
-    - expenses: List of expense dictionaries
-    - filename: Name of the file to save expenses (default is 'expenses.json')
-    """
-    with open(filename, "w") as f:
-        json.dump(expenses, f)
-
-def load_expenses_from_file(filename="expenses.json"):
-    """
-    Loads the list of expenses from a file.
-    
-    Parameters:
-    - filename: Name of the file to load expenses (default is 'expenses.json')
-    
-    Returns:
-    - List of expense dictionaries
-    """
-    try:
-        with open(filename, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
+    return amount, description, category, date
 
 def monthly_summary(expenses):
     """
@@ -81,7 +55,7 @@ def main():
     Main function to run the expense tracker.
     Provides a simple CLI for user interaction.
     """
-    expenses = load_expenses_from_file()
+    expenses = []
 
     while True:
         print("\nExpense Tracker")
@@ -93,15 +67,14 @@ def main():
         choice = input("Choose an option: ")
 
         if choice == "1":
-            amount, description, category = get_user_input()
+            amount, description, category, date = get_user_input()
             expense = {
                 "amount": amount,
                 "description": description,
                 "category": category,
-                "date": input("Enter the date (YYYY-MM-DD): ")
+                "date": date
             }
             expenses.append(expense)
-            save_expenses_to_file(expenses)
 
         elif choice == "2":
             print("Monthly Summary")
@@ -119,5 +92,5 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()
